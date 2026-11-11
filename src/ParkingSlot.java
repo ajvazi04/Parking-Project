@@ -1,34 +1,46 @@
-import java.time.LocalDateTime;
-
-class ParkingSlot {
-    private int slotNumber;
-    private Vehicle vehicle;
+public class ParkingSlot {
+    private final int slotNumber;
     private Ticket ticket;
 
     public ParkingSlot(int slotNumber) {
+        if (slotNumber < 1) {
+            throw new IllegalArgumentException("Space number must be positive.");
+        }
         this.slotNumber = slotNumber;
-        this.vehicle = null;
     }
 
-    public boolean isOccupied() { return vehicle != null; }
-
-    public void parkVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
-        this.ticket = new Ticket(this);
+    public boolean isOccupied() {
+        return ticket != null;
     }
 
-    public Vehicle unparkVehicle() {
-        Vehicle v = vehicle;
-        vehicle = null;
+    void parkVehicle(Ticket ticket) {
+        if (isOccupied()) {
+            throw new IllegalStateException("Parking space is already occupied.");
+        }
+        if (ticket == null || ticket.getSlotNumber() != slotNumber) {
+            throw new IllegalArgumentException("Ticket does not match this parking space.");
+        }
+        this.ticket = ticket;
+    }
+
+    Ticket unparkVehicle() {
+        if (!isOccupied()) {
+            throw new IllegalStateException("Parking space is empty.");
+        }
+        Ticket completedTicket = ticket;
         ticket = null;
-        return v;
+        return completedTicket;
     }
 
-    public String getTicketID() {
-        return ticket == null ? null : ticket.getTicketID();
+    public int getSlotNumber() {
+        return slotNumber;
     }
 
-    public int getSlotNumber() { return slotNumber; }
-    public Vehicle getVehicle() { return vehicle; }
-    public LocalDateTime getEntryTime() { return ticket == null ? null : ticket.getEntryTime(); }
+    public Vehicle getVehicle() {
+        return ticket == null ? null : ticket.getVehicle();
+    }
+
+    public Ticket getTicket() {
+        return ticket;
+    }
 }

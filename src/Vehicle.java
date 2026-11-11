@@ -1,27 +1,30 @@
-// Vehicle.java
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 public abstract class Vehicle {
-    private String licensePlate;
-    private String ownerName;
-    private LocalDateTime entryTime;
+    private final String licensePlate;
+    private final String ownerName;
 
-    public Vehicle(String licensePlate, String ownerName) {
-        this.licensePlate = licensePlate;
-        this.ownerName = ownerName;
-        this.entryTime = LocalDateTime.now();
+    protected Vehicle(String licensePlate, String ownerName) {
+        if (licensePlate == null || licensePlate.isBlank()) {
+            throw new IllegalArgumentException("License plate cannot be empty.");
+        }
+        if (ownerName == null || ownerName.isBlank()) {
+            throw new IllegalArgumentException("Owner name cannot be empty.");
+        }
+        this.licensePlate = licensePlate.trim();
+        this.ownerName = ownerName.trim();
     }
 
-    public String getLicensePlate() { return licensePlate; }
-    public String getOwnerName() { return ownerName; }
-    public LocalDateTime getEntryTime() { return entryTime; }
+    public String getLicensePlate() {
+        return licensePlate;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
 
     public abstract String getType();
 
     @Override
     public String toString() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a");
-        return String.format("%s | %s | Entry: %s", licensePlate, getType(), entryTime.format(formatter));
+        return String.format("%s | %s | Owner: %s", getType(), licensePlate, ownerName);
     }
 }

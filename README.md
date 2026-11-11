@@ -1,19 +1,39 @@
 # Parking Project
 
-A simple Java parking management application that runs in the terminal.
+A Java 17+ console app for managing a small parking lot. It demonstrates object-oriented design with vehicle subclasses, a parking-lot model, immutable parking tickets, and a separate console interface. All data is kept in memory and resets when the app exits.
 
 ## Features
 
 - Park and remove cars, motorcycles, and trucks
-- Search by license plate and list available or occupied spaces
-- Add or remove spaces and view parking history
-- Generate a ticket for each parked vehicle
+- Search by license plate; duplicate active plates are rejected
+- Add or remove parking spaces and view current availability
+- Keep a session history of completed parking tickets
+- Validate user input and handle full lots and unavailable spaces
 
-## Run
+## Run (Windows PowerShell)
 
-Requires JDK 17 or later. From the project root, run:
+From the project root, compile and start the app:
 
-```bash
-javac -d out src/*.java
+```powershell
+New-Item -ItemType Directory -Force out | Out-Null
+$sources = Get-ChildItem src\*.java | ForEach-Object { $_.FullName }
+javac -d out $sources
 java -cp out Main
 ```
+
+## Run the tests
+
+The project has a dependency-free test program covering parking, search, history, validation, and space management:
+
+```powershell
+$sources = Get-ChildItem src\*.java, tests\*.java | ForEach-Object { $_.FullName }
+javac -d out $sources
+java -ea -cp out ParkingLotTest
+```
+
+## How the code is organized
+
+- `Vehicle`, `Car`, `Motorcycle`, and `Truck` model the supported vehicle types.
+- `ParkingLot`, `ParkingSlot`, and `Ticket` contain the parking rules and state.
+- `ParkingApplication` handles menus and user input; `Main` starts the app.
+- `tests\ParkingLotTest.java` checks the core behavior without extra libraries.
