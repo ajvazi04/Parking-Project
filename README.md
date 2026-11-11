@@ -1,17 +1,17 @@
 # Parking Project
 
-Menaxhim i thjeshtë i parkingut me Java, nga terminali.
+A simple Java parking management application that runs in the terminal.
 
-## Funksionet
+## Features
 
-- Parkim dhe largim automjetesh (makinë, motor ose kamion)
-- Kërkim sipas targës dhe listim i vendeve të lira/zëna
-- Shtim ose heqje vendesh dhe shikim i historikut
-- Gjenerim i biletës për çdo parkim
+- Park and remove cars, motorcycles, and trucks
+- Search by license plate and list available or occupied spaces
+- Add or remove spaces and view parking history
+- Generate a ticket for each parked vehicle
 
-## Nisja
+## Run
 
-Kërkohet JDK 17 ose më i ri. Nga dosja kryesore e projektit, ekzekuto:
+Requires JDK 17 or later. From the project root, run:
 
 ```bash
 javac -d out src/*.java
